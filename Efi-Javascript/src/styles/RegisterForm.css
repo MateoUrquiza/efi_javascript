@@ -1,0 +1,51 @@
+/* 🔹 Fondo para toda la pantalla */
+body {
+  background: linear-gradient(135deg, #89f7fe, #66a6ff, #005f73) !important;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-attachment: fixed;
+  min-height: 100vh;
+  margin: 0;
+}
+
+/* 🔹 Contenedor del formulario */
+.container {
+  background-color: rgba(255, 255, 255, 0.9);
+  border-radius: 12px;
+  padding: 2rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* 🔹 Estilos de los inputs */
+.form-control,
+.form-select {
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  padding: 10px;
+  transition: all 0.2s ease-in-out;
+}
+
+.form-control:focus,
+.form-select:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.4);
+}
+
+/* 🔹 Botón */
+button.btn-primary {
+  background: linear-gradient(90deg, #007bff, #0056b3);
+  border: none;
+  border-radius: 8px;
+  transition: transform 0.2s ease, background 0.3s ease;
+}
+
+button.btn-primary:hover {
+  transform: scale(1.02);
+  background: linear-gradient(90deg, #0056b3, #007bff);
+}
+
+/* 🔹 Texto */
+h2 {
+  font-weight: 600;
+  color: #222;
+}
