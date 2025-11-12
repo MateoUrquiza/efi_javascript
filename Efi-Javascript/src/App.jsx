@@ -7,6 +7,7 @@ import PostEdit from "./pages/PostEdit";
 import PostDetail from "./pages/PostDetail";
 import { PrivateRoute } from "./routes/PrivateRoute";
 import Navbar from "./components/Navbar";
+import ReviewsList from "./pages/ReviewsList";
 
 export default function App() {
   return (
@@ -43,6 +44,15 @@ export default function App() {
             </PrivateRoute>
           }
         />
+        <Route
+          path="/reviews"
+          element={
+            <PrivateRoute>
+              <ReviewsList />
+            </PrivateRoute>
+          }
+        />
+
       </Routes>
     </>
   );

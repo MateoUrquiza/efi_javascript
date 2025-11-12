@@ -1,6 +1,7 @@
 import { useContext } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
+import { Link } from "react-router-dom"; 
 
 export default function Navbar() {
   const { user, logout } = useContext(AuthContext);
@@ -8,20 +9,24 @@ export default function Navbar() {
 
   const handleLogout = () => {
     logout();
-    navigate("/login"); // 🔹 navegación SPA sin recarga
+    navigate("/login");
   };
 
   return (
-    <nav className="navbar navbar-dark bg-dark px-3">
-      <span className="navbar-brand mb-0 h1">React-EFI Javascript</span>
+    <nav className="navbar navbar-dark bg-dark px-3 d-flex justify-content-between">
+      {/* 🔹 Logo / título clickeable */}
+      <Link to="/" className="navbar-brand text-light text-decoration-none">
+        React-EFI Javascript
+      </Link>
 
+      {/* 🔹 Menú derecho */}
       {user ? (
         <div className="d-flex align-items-center">
           <Link to="/posts" className="btn btn-outline-light btn-sm me-2">
             Posts
           </Link>
 
-          {user.role === "admin" && (
+          {(user.role === "admin" || user.role === "moderator") && (
             <Link to="/reviews" className="btn btn-outline-warning btn-sm me-2">
               Reviews
             </Link>
@@ -48,3 +53,6 @@ export default function Navbar() {
     </nav>
   );
 }
+
+
+

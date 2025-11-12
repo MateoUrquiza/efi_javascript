@@ -10,6 +10,7 @@ export default function PostDetail() {
   const [reviews, setReviews] = useState([]);
   const [newReview, setNewReview] = useState("");
 
+  // 🔹 Cargar post + comentarios
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -27,6 +28,7 @@ export default function PostDetail() {
     fetchData();
   }, [id]);
 
+  // 🔹 Crear comentario
   const handleReview = async (e) => {
     e.preventDefault();
     if (!newReview.trim()) return;
@@ -38,7 +40,7 @@ export default function PostDetail() {
           Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ contenido: newReview }),
+        body: JSON.stringify({ texto: newReview }), // ✅ Campo correcto
       });
 
       if (!res.ok) throw new Error();
@@ -48,6 +50,26 @@ export default function PostDetail() {
       toast.success("💬 Comentario agregado");
     } catch {
       toast.error("❌ Error al comentar");
+    }
+  };
+
+  // 🔹 Eliminar comentario (autor o admin/moderator)
+  const handleDelete = async (commentId) => {
+    if (!confirm("¿Seguro que querés eliminar este comentario?")) return;
+
+    try {
+      const res = await fetch(`http://127.0.0.1:5000/api/comments/${commentId}`, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (!res.ok) throw new Error();
+      setReviews(reviews.filter((r) => r.id !== commentId));
+      toast.success("🗑 Comentario eliminado");
+    } catch {
+      toast.error("❌ No se pudo eliminar el comentario");
     }
   };
 
@@ -65,10 +87,29 @@ export default function PostDetail() {
       ) : (
         <ul className="list-group mb-3">
           {reviews.map((r) => (
-            <li key={r.id} className="list-group-item">
-              {r.contenido}
-              <br />
-              <small className="text-muted">Usuario {r.usuario_id}</small>
+            <li
+              key={r.id}
+              className="list-group-item d-flex justify-content-between align-items-center"
+            >
+              <div>
+                {r.texto}
+                <br />
+                <small className="text-muted">
+                  Usuario {r.usuario_id}
+                </small>
+              </div>
+
+              {/* 🔹 Solo autor o admin/moderator pueden eliminar */}
+              {((parseInt(user?.sub) === r.usuario_id) ||
+                user?.role === "admin" ||
+                user?.role === "moderator") && (
+                <button
+                  className="btn btn-sm btn-danger"
+                  onClick={() => handleDelete(r.id)}
+                >
+                  🗑
+                </button>
+              )}
             </li>
           ))}
         </ul>
@@ -89,4 +130,3 @@ export default function PostDetail() {
     </div>
   );
 }
-
