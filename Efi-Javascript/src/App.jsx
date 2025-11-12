@@ -2,9 +2,9 @@ import { Routes, Route } from "react-router-dom";
 import Home from "./components/Home";
 import RegisterForm from "./components/RegisterForm";
 import Login from "./pages/Login";
-import Register from "./pages/Register";
-import PostsList from "./pages/PostsList";     // si están en src/pages
-import ReviewsList from "./pages/ReviewsList";
+import PostsList from "./pages/PostsList";
+import PostEdit from "./pages/PostEdit";
+import PostDetail from "./pages/PostDetail";
 import { PrivateRoute } from "./routes/PrivateRoute";
 import Navbar from "./components/Navbar";
 
@@ -12,28 +12,34 @@ export default function App() {
   return (
     <>
       <Navbar />
-
       <Routes>
         {/* Rutas públicas */}
         <Route path="/" element={<Home />} />
-        <Route path="/registrarse" element={<RegisterForm />} />
+        <Route path="/register" element={<RegisterForm />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
 
-        {/* Rutas protegidas */}
+        {/* 🔒 Rutas protegidas */}
         <Route
           path="/posts"
           element={
-            <PrivateRoute roles={["admin", "user"]}>
+            <PrivateRoute>
               <PostsList />
             </PrivateRoute>
           }
         />
         <Route
-          path="/reviews"
+          path="/posts/:id"
           element={
-            <PrivateRoute roles={["admin", "user"]}>
-              <ReviewsList />
+            <PrivateRoute>
+              <PostDetail />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/posts/:id/edit"
+          element={
+            <PrivateRoute>
+              <PostEdit />
             </PrivateRoute>
           }
         />
@@ -41,3 +47,4 @@ export default function App() {
     </>
   );
 }
+

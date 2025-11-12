@@ -6,9 +6,11 @@ import "../styles/RegisterForm.css";
 
 // 🧩 Validación con Yup
 const validationSchema = Yup.object({
-  name: Yup.string().required("El nombre es obligatorio"),
+  username: Yup.string().required("El nombre de usuario es obligatorio"),
   email: Yup.string().email("Email inválido").required("El email es obligatorio"),
-  password: Yup.string().required("La contraseña es obligatoria"),
+  password: Yup.string()
+    .min(6, "La contraseña debe tener al menos 6 caracteres")
+    .required("La contraseña es obligatoria"),
 });
 
 export default function RegisterForm() {
@@ -17,48 +19,64 @@ export default function RegisterForm() {
   // 🧩 Envío del formulario
   const handleSubmit = async (values, { resetForm }) => {
     try {
-      const response = await fetch("http://localhost:5000/register", {
+      const response = await fetch("http://localhost:5000/api/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(values),
       });
 
       if (response.ok) {
-        toast.success("Usuario registrado con éxito");
+        toast.success("✅ Usuario registrado con éxito");
         resetForm();
-        setTimeout(() => navigate("/"), 2000);
+        setTimeout(() => navigate("/login"), 2000);
+      } else if (response.status === 409) {
+        toast.error("⚠️ El usuario o email ya existe");
+      } else if (response.status === 422) {
+        toast.error("❌ Datos inválidos, revisá los campos");
       } else {
-        toast.error("Hubo un error al registrar el usuario");
+        toast.error("❌ Error al registrar el usuario");
       }
     } catch (error) {
-      toast.error("Hubo un error con el servidor");
+      toast.error("💥 Error de conexión con el servidor");
       console.error(error);
     }
   };
 
   return (
-    <div className="container mt-5" style={{ maxWidth: "500px" }}>
-      <h2 className="text-center mb-4">Crear cuenta</h2>
+    <div
+      className="container mt-5 p-4 rounded shadow"
+      style={{ maxWidth: "500px", backgroundColor: "white" }}
+    >
+      <h2 className="text-center mb-4">Registro</h2>
 
       <Formik
-        initialValues={{ name: "", email: "", password: "", role: "usuario" }}
+        initialValues={{
+          username: "",
+          email: "",
+          password: "",
+          role: "user",
+        }}
         validationSchema={validationSchema}
         onSubmit={handleSubmit}
       >
         {({ isSubmitting }) => (
           <Form>
-            {/* Nombre */}
+            {/* Nombre de usuario */}
             <div className="mb-3">
-              <label htmlFor="name" className="form-label">
-                Nombre
+              <label htmlFor="username" className="form-label">
+                Nombre de usuario
               </label>
               <Field
-                id="name"
-                name="name"
+                id="username"
+                name="username"
                 className="form-control"
-                placeholder="Tu nombre"
+                placeholder="Tu nombre de usuario"
               />
-              <ErrorMessage name="name" component="div" className="text-danger small" />
+              <ErrorMessage
+                name="username"
+                component="div"
+                className="text-danger small"
+              />
             </div>
 
             {/* Email */}
@@ -73,7 +91,11 @@ export default function RegisterForm() {
                 className="form-control"
                 placeholder="nombre@correo.com"
               />
-              <ErrorMessage name="email" component="div" className="text-danger small" />
+              <ErrorMessage
+                name="email"
+                component="div"
+                className="text-danger small"
+              />
             </div>
 
             {/* Contraseña */}
@@ -88,16 +110,21 @@ export default function RegisterForm() {
                 className="form-control"
                 placeholder="********"
               />
-              <ErrorMessage name="password" component="div" className="text-danger small" />
+              <ErrorMessage
+                name="password"
+                component="div"
+                className="text-danger small"
+              />
             </div>
 
-            {/* Rol (opcional) */}
+            {/* Rol */}
             <div className="mb-3">
               <label htmlFor="role" className="form-label">
                 Rol
               </label>
               <Field as="select" id="role" name="role" className="form-select">
-                <option value="usuario">Usuario</option>
+                <option value="user">Usuario</option>
+                <option value="moderator">Moderador</option>
                 <option value="admin">Administrador</option>
               </Field>
             </div>
