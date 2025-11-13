@@ -11,14 +11,14 @@ export default function Home() {
       <div className="d-flex justify-content-center gap-3">
         <button
           className="btn btn-primary px-4"
-          onClick={() => navigate("/registrarse")}
+          onClick={() => navigate("/register")}
         >
           Registrarse
         </button>
 
         <button
           className="btn btn-secondary px-4"
-          onClick={() => alert("Funcionalidad próximamente")}
+          onClick={() => navigate("/login")}
         >
           Iniciar sesión
         </button>

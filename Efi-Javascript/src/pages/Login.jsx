@@ -1,24 +1,31 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 export default function Login() {
-  const { login } = useContext(AuthContext);
+  const { login, token } = useContext(AuthContext);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
+
+  // Si ya está logueado, evitar que vuelva a /login
+  useEffect(() => {
+    if (token) navigate("/posts");
+  }, [token, navigate]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // 🔹 Validación antes de intentar loguear
     if (!email || !password) {
       toast.error("Todos los campos son obligatorios");
       return;
     }
 
-    // 🔹 Intentar login si todo está completo
     const success = await login(email, password);
-    if (success) window.location.href = "/posts";
+    if (success) {
+      navigate("/posts");  //  Redirección SIN recargar la app
+    }
   };
 
   return (
@@ -46,4 +53,5 @@ export default function Login() {
     </div>
   );
 }
+
 
