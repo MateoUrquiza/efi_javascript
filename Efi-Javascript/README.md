@@ -1,16 +1,111 @@
-# React + Vite
+📝 EFI – Práctica Profesionalizante I (JavaScript)
+Frontend en React + Vite consumiendo API Flask con JWT
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Este proyecto corresponde al trabajo final integrador de la materia Práctica Profesionalizante I – JavaScript.
+El frontend está desarrollado con React + Vite, consumiendo una API REST construida en Flask con autenticación JWT.
 
-Currently, two official plugins are available:
+🚀 Tecnologías Utilizadas
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- React + Vite
+- React Router DOM
+- Bootstrap 5
+- React Toastify
+- Context API (manejo global de autenticación)
+- Fetch API
+- JWT (Bearer Token)
 
-## React Compiler
+⚙️ Instalación y Ejecución
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+1️⃣ Clonar el repositorio
+```bash
+git clone git@github.com:MateoUrquiza/efi_javascript.git
+cd efi_javascript
+```
+2️⃣ Instalar dependencias
+```bash
+npm install
+```
+3️⃣ Crear archivo .env
+```bash
+En la raíz del proyecto:
 
-## Expanding the ESLint configuration
+VITE_API_URL="http://127.0.0.1:5000"
+```
+4️⃣ Iniciar la aplicación
+```bash
+npm run dev
+```
+🔐 Autenticación
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+El sistema utiliza JSON Web Tokens (JWT):
+
+Login y registro consumen la API Flask
+
+El token se guarda en localStorage
+
+AuthContext controla sesión, usuario y cierre de sesión
+
+Las rutas protegidas requieren token válido
+
+🧩 Funcionalidades Principales
+✔ Autenticación
+
+Registro de usuario
+
+Inicio de sesión
+
+Redirección automática
+
+Cierre de sesión
+
+✔ CRUD de Posts
+
+Listar posts
+
+Crear post
+
+Ver detalle
+
+Editar post
+
+Eliminar post (según rol/autor)
+
+✔ CRUD de Comentarios (Reviews)
+
+Ver comentarios de cada post
+
+Crear comentario
+
+Editar comentario
+
+Eliminar comentario (autor, moderador o admin)
+
+✔ Roles de Usuario
+
+user
+
+moderator
+
+admin
+
+Permisos aplicados desde el backend.
+
+📁 Estructura del Proyecto
+src/
+ ├── components/
+ ├── context/
+ ├── pages/
+ ├── routes/
+ ├── styles/
+ └── App.jsx
+
+👥 Integrantes
+
+- Mateo Urquiza
+
+- Sebastián Maldonado
+
+🏫 Institución
+
+ITEC Río Cuarto
+Práctica Profesionalizante I – JavaScript
