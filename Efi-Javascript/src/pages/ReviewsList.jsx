@@ -68,7 +68,7 @@ export default function ReviewsList() {
   // 🔹 Guardar edición
   const handleSave = async (id) => {
     try {
-      const res = await fetch(`http://127.0.0.1:5000/api/comments/${id}`, {
+      const res = await fetch(`http://127.0.0.1:5000/api/comments/${id}/edit`, {
         method: "PUT",
         headers: {
           Authorization: `Bearer ${token}`,

@@ -1,10 +1,11 @@
 import { useEffect, useState, useContext } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 import { toast } from "react-toastify";
 
 export default function PostDetail() {
   const { id } = useParams();
+  const navigate = useNavigate();
   const { token, user } = useContext(AuthContext);
   const [post, setPost] = useState(null);
   const [reviews, setReviews] = useState([]);
@@ -40,7 +41,7 @@ export default function PostDetail() {
           Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ texto: newReview }), // ✅ Campo correcto
+        body: JSON.stringify({ texto: newReview }),
       });
 
       if (!res.ok) throw new Error();
@@ -53,7 +54,7 @@ export default function PostDetail() {
     }
   };
 
-  // 🔹 Eliminar comentario (autor o admin/moderator)
+  // 🔹 Eliminar comentario
   const handleDelete = async (commentId) => {
     if (!confirm("¿Seguro que querés eliminar este comentario?")) return;
 
@@ -79,6 +80,18 @@ export default function PostDetail() {
     <div className="container mt-4">
       <h2>{post.titulo}</h2>
       <p>{post.contenido}</p>
+
+      {/* 🔹 BOTÓN EDITAR (solo autor o admin) */}
+      {token &&
+        ((parseInt(user?.sub) === post.usuario_id) || user?.role === "admin") && (
+          <button
+            className="btn btn-warning mb-3"
+            onClick={() => navigate(`/posts/${id}/edit`)}
+          >
+            ✏️ Editar post
+          </button>
+        )}
+
       <hr />
       <h5>💬 Comentarios</h5>
 
@@ -94,9 +107,7 @@ export default function PostDetail() {
               <div>
                 {r.texto}
                 <br />
-                <small className="text-muted">
-                  Usuario {r.usuario_id}
-                </small>
+                <small className="text-muted">Usuario {r.usuario_id}</small>
               </div>
 
               {/* 🔹 Solo autor o admin/moderator pueden eliminar */}
@@ -130,3 +141,4 @@ export default function PostDetail() {
     </div>
   );
 }
+
