@@ -37,67 +37,19 @@ npm run dev
 ```
 🔐 Autenticación
 
-El sistema utiliza JSON Web Tokens (JWT):
-
-Login y registro consumen la API Flask
-
-El token se guarda en localStorage
-
-AuthContext controla sesión, usuario y cierre de sesión
-
-Las rutas protegidas requieren token válido
+- El sistema utiliza JSON Web Tokens (JWT):
+- Login y registro consumen la API Flask
+- El token se guarda en localStorage
+- AuthContext controla sesión, usuario y cierre de sesión
+- Las rutas protegidas requieren token válido
 
 🧩 Funcionalidades Principales
-✔ Autenticación
 
-Registro de usuario
-
-Inicio de sesión
-
-Redirección automática
-
-Cierre de sesión
-
-✔ CRUD de Posts
-
-Listar posts
-
-Crear post
-
-Ver detalle
-
-Editar post
-
-Eliminar post (según rol/autor)
-
-✔ CRUD de Comentarios (Reviews)
-
-Ver comentarios de cada post
-
-Crear comentario
-
-Editar comentario
-
-Eliminar comentario (autor, moderador o admin)
-
-✔ Roles de Usuario
-
-user
-
-moderator
-
-admin
-
-Permisos aplicados desde el backend.
-
-📁 Estructura del Proyecto
-src/
- ├── components/
- ├── context/
- ├── pages/
- ├── routes/
- ├── styles/
- └── App.jsx
+- Autenticación
+- Registro de usuario
+- Inicio de sesión
+- Redirección automática
+- Cierre de sesión
 
 👥 Integrantes
 
